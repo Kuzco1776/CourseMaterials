@@ -384,3 +384,17 @@ puzzle(green_beam):-write("Dr. Sundberg escorts you out saying 'Sorry, this is a
 puzzle(_).
 
 read_words(W):-read_string(user_input,"\n\r","\n\r",_,L),split_string(L,"\t ","\t ",W).
+
+
+list_connect(R):- write("Connected Rooms:"), door(R, C), nl, write(C),
+                    short_desc(C, S), write("- "), write(S), fail.
+list_connect(R):- door(C, R), nl, write(C), short_desc(C, S), write("- "), write(S), fail.
+list_connect(_R).
+
+list_obj(R):- location(O, R), name(O, N), short_desc(O, S), nl, write(N), write("- "), write(S), false.
+list_obj(_R).
+
+look(R):- room(R), name(R, N), write(N), nl, long_desc(R, D), write(D),
+          nl, nl, (list_connect(R)), nl, nl, write("Opjects: "), list_obj(R).
+
+study(O):- long_desc(O, L), write(L), nl, list_obj(O).
